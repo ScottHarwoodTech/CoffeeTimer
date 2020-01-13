@@ -1,8 +1,7 @@
 import React from 'react';
-import RecipeCreation from '../recipeCreation';
-
-const HomeScreen = () => {
-  return <RecipeCreation />;
+import NavigationHeader from '../sharedComponents/NavigationHeader';
+const HomeScreen = props => {
+  return <NavigationHeader navigation={props.navigation} title={"Home"}/>;
 };
 
 export default HomeScreen;

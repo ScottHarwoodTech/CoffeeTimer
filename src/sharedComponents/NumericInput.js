@@ -1,15 +1,8 @@
 import React from 'react';
 import NumericInput from 'react-native-numeric-input';
 
-const numericInput = ({minValue, value, type, onChange}) => {
-  return (
-    <NumericInput
-      minValue={minValue}
-      value={value}
-      type={type}
-      onChange={onChange}
-    />
-  );
+const numericInput = props => {
+  return <NumericInput {...props} />;
 };
 
 export default numericInput;

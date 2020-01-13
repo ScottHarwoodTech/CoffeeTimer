@@ -1,7 +1,6 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {Text, StyleSheet} from 'react-native';
-import Accordion from '../../../sharedComponents/Accordion';
-import {Card, CardItem} from 'native-base';
+import {Card, Accordion, CardItem} from 'native-base';
 import NumericInput from '../../../sharedComponents/NumericInput';
 import Rational, {reduceRational} from '../rational';
 import shortid from 'shortid';
@@ -52,12 +51,7 @@ const RecipeStage = ({
   );
 };
 
-const RecipeStages = ({totalWater}) => {
-  const [stages, setStages] = useState([
-    {time: 1, waterAmount: 1, title: 'Stage 1'},
-    {time: 1, waterAmount: 1, title: 'Stage 2'},
-  ]);
-
+const RecipeStages = ({stages, setStages, totalWater}) => {
   const setStageWaterAmount = i => value => {
     const copyOfStages = [...stages];
     copyOfStages[i].waterAmount = value;
@@ -71,21 +65,20 @@ const RecipeStages = ({totalWater}) => {
   };
 
   const addStage = stage => setStages([...stages, stage]);
+  const removeStage = index => {
+    const clone = [...stages];
+    clone.splice(index, 1);
+    setStages(clone);
+  };
 
   const endStage = {
     title: 'Add Stage',
-    openIcon: 'add-circle',
-    onOpen: () =>
-      addStage({
-        title: `Stage ${stages.length + 1}`,
-        time: 1,
-        waterAmount: 1,
-      }),
+    endStage: true,
   };
 
   const panes = stages.map((stage, i) => ({
-    title: `Stage ${stage.title ? stage.title : i}`,
-    render: (
+    title: stage.title ? stage.title : `Stage ${i}`,
+    content: (
       <RecipeStage
         stageWaterAmount={stage.waterAmount}
         setStageWaterAmount={setStageWaterAmount(i)}
@@ -96,7 +89,21 @@ const RecipeStages = ({totalWater}) => {
     ),
   }));
 
-  return <Accordion items={[...panes, endStage]} />;
+  return (
+    <Accordion
+      dataArray={[...panes, endStage]}
+      renderContent={stage => stage.content}
+      onAccordionOpen={(item, i) => {
+        item.endStage
+          ? addStage({
+              title: `Stage ${i + 1}`,
+              time: 1,
+              waterAmount: 1,
+            })
+          : undefined;
+      }}
+    />
+  );
 };
 
 export default RecipeStages;

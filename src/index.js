@@ -1,18 +1,32 @@
 import React from 'react';
-import {createAppContainer} from 'react-navigation';
-import {createStackNavigator} from 'react-navigation-stack';
 import RecipeCreation from './recipeCreation';
-import {getTheme} from 'native-base';
+import {Root, Icon} from 'native-base';
+import HomeScreen from './HomeScreen';
+import {createDrawerNavigator} from 'react-navigation-drawer';
+import {createAppContainer} from 'react-navigation';
 
-const MainNavigator = createStackNavigator({
+const MainNavigator = createDrawerNavigator({
+  HomeScreen: {
+    screen: HomeScreen,
+    navigationOptions: {
+      drawerLabel: 'Home Screen',
+      drawerIcon: () => <Icon name="home" />,
+    },
+  },
   RecipeCreation: {
     screen: RecipeCreation,
-    navigationOptions: ({navigation}) => ({title: 'Add Recipe'}),
+    navigationOptions: {
+      drawerLabel: 'Recipe Creation',
+      drawerIcon: () => <Icon name="construct" />,
+    },
   },
 });
-const Navigation = createAppContainer(MainNavigator);
-const theme = getTheme();
+const Navigator = createAppContainer(MainNavigator);
 
-const App = () => <Navigation screenProps={{theme}} />;
+const App = () => (
+  <Root>
+    <Navigator />
+  </Root>
+);
 
 export default App;
