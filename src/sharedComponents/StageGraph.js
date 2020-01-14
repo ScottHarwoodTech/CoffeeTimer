@@ -11,7 +11,7 @@ const chartConfig = {
   strokeWidth: 1,
 };
 
-const StageGraph = ({stages, maxWater}) => {
+const StageGraph = ({stages, maxWater, time, tickRate}) => {
   const xData = stages.reduce(
     (accum, stage) => {
       const xValue = accum[accum.length - 1];
@@ -26,6 +26,17 @@ const StageGraph = ({stages, maxWater}) => {
     },
     [0],
   );
+  const timeGraph = [];
+  if (time !== undefined) {
+    yData.slice(0, yData.length - 2).forEach((start, i) => {
+      const end = yData[i + 1];
+      const numberOfTicks = (xData[i + 1] - xData[i]) * tickRate;
+      const distancePerTick = (end - start) / numberOfTicks;
+      for (let x = 0; x <= numberOfTicks; x++) {
+        timeGraph.push(start + distancePerTick * x);
+      }
+    });
+  }
   return (
     <View>
       <LineChart

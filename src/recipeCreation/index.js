@@ -4,7 +4,7 @@ import NumericInput from '../sharedComponents/NumericInput';
 import RecipeStages from './recipeCreation/recipeStages';
 import Rational, {reduceRational} from './recipeCreation/rational';
 import {Toast, Button, Text, Container, H3, View, Content} from 'native-base';
-import StageGraph from './recipeCreation/stageGraph';
+import StageGraph from '../sharedComponents/StageGraph';
 import NavigationHeader from '../sharedComponents/NavigationHeader';
 const styles = StyleSheet.create({
   container: {
@@ -59,7 +59,7 @@ const RecipeCreation = props => {
   };
   return (
     <Container>
-      <NavigationHeader navigation={props.navigation} title={"Add Recipe"} />
+      <NavigationHeader navigation={props.navigation} title={'Add Recipe'} />
       <Content padder>
         <Rational
           title="Ratio:"
